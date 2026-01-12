@@ -143,3 +143,8 @@ def predict_price(location, sqft, bath, bhk):
     return model.predict([x])[0]
 
 print(predict_price('Indira Nagar', 1000, 2, 2))
+
+import joblib
+
+joblib.dump(model, "house_price_model.pkl")
+joblib.dump(inputs.columns, "model_columns.pkl")

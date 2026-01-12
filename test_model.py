@@ -1,19 +1,52 @@
 import joblib
 import numpy as np
+import os
 
-# Load saved model and feature columns
-model = joblib.load("house_price_model.pkl")
-columns = joblib.load("model_columns.pkl")
+# -----------------------------
+# Set paths for your saved model and columns
+# Replace with your folder if different
+# -----------------------------
+project_folder = r"f:\house-price-prediction"
+model_path = os.path.join(project_folder, "house_price_model.pkl")
+columns_path = os.path.join(project_folder, "model_columns.pkl")
 
-# Sample prediction function
-def predict_price(location, sqft, bath, bhk):
+# -----------------------------
+# Load the saved model and feature columns
+# -----------------------------
+try:
+    model = joblib.load(model_path)
+    columns = joblib.load(columns_path)
+    print("Model and columns loaded successfully!")
+except FileNotFoundError:
+    print("Error: .pkl files not found. Run your training script first to create them.")
+    exit()
+
+def predict_price(location, total_sqft, bath, bhk):
+    # Create empty input vector
     x = np.zeros(len(columns))
-    x[0] = sqft
+
+    # Fill numeric values
+    x[0] = total_sqft
     x[1] = bath
     x[2] = bhk
+
+    # One-hot encode the location
     if location in columns:
         loc_index = np.where(columns == location)[0][0]
         x[loc_index] = 1
-    return model.predict([x])[0]
 
-print(predict_price("Indira Nagar", 1000, 2, 2))
+    # Predict price
+    price = model.predict([x])[0]
+    return price
+
+# -----------------------------
+# Example usage / test
+# -----------------------------
+if __name__ == "__main__":
+    test_location = "Indira Nagar"
+    test_sqft = 1000
+    test_bath = 2
+    test_bhk = 2
+
+    predicted_price = predict_price(test_location, test_sqft, test_bath, test_bhk)
+    print(f"Predicted price for {test_sqft} sqft, {test_bhk} BHK, {test_bath} bath in {test_location}: {predicted_price:.2f} Lakhs")
