@@ -17,8 +17,10 @@ try:
     model = joblib.load(model_path)
     columns = joblib.load(columns_path)
     print("Model and columns loaded successfully!")
+
 except FileNotFoundError:
     print("Error: .pkl files not found. Run your training script first to create them.")
+
     exit()
 
 def predict_price(location, total_sqft, bath, bhk):
@@ -39,9 +41,6 @@ def predict_price(location, total_sqft, bath, bhk):
     price = model.predict([x])[0]
     return price
 
-# -----------------------------
-# Example usage / test
-# -----------------------------
 if __name__ == "__main__":
     test_location = "Indira Nagar"
     test_sqft = 1000
