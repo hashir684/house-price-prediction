@@ -2,17 +2,10 @@ import joblib
 import numpy as np
 import os
 
-# -----------------------------
-# Set paths for your saved model and columns
-# Replace with your folder if different
-# -----------------------------
 project_folder = r"f:\house-price-prediction"
 model_path = os.path.join(project_folder, "house_price_model.pkl")
 columns_path = os.path.join(project_folder, "model_columns.pkl")
 
-# -----------------------------
-# Load the saved model and feature columns
-# -----------------------------
 try:
     model = joblib.load(model_path)
     columns = joblib.load(columns_path)
@@ -24,10 +17,8 @@ except FileNotFoundError:
     exit()
 
 def predict_price(location, total_sqft, bath, bhk):
-    # Create empty input vector
     x = np.zeros(len(columns))
 
-    # Fill numeric values
     x[0] = total_sqft
     x[1] = bath
     x[2] = bhk
