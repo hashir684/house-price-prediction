@@ -35,7 +35,7 @@ How to Run the Project
 
 1. Clone the repository
 
-git clone https://github.com/yourusername/house-price-prediction.git
+git clone https://github.com/hashir684/house-price-prediction.git
 cd house-price-prediction
 
 ------------------------------------------------------------
